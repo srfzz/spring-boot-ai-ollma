@@ -1,0 +1,13 @@
+package com.spring_boot_ai_ollma.spring_ai.config;
+
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AiConfig {
+    @Bean
+    public ChatClient geminiAichatClient(ChatClient.Builder chatClientBuilder) {
+        return chatClientBuilder.build();
+    }
+}
