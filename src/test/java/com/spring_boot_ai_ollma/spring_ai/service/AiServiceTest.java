@@ -20,4 +20,19 @@ public class AiServiceTest {
    var joke = aiService.sayHello(topic);
    log.info(joke);
     }
+    @Test
+    void testEmbeddingText()
+    {
+        var embeded=aiService.getEmbedding("spring boot is a v=big eneterpis elevel framegereokbdjhbcjhebjf kjekjfhekjf");
+        System.out.println(embeded.length);
+        for(float e:embeded)
+        {
+            System.out.println(e + "");
+        }
+    }
+    @Test
+    void testTnjestDataToVectorStore()
+    {
+        aiService.injestDataToVectorStore();
+    }
 }
