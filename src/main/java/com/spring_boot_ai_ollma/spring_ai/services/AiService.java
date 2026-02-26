@@ -27,7 +27,7 @@ public class AiService {
     public void injestDataToVectorStore() {
         List<Document> documents = new ArrayList<>();
 
-        // 🛒 Subject 1: E-Commerce Microservices Architecture
+
         documents.add(new Document(
                 """
                 The 'Saga Pattern' is a failure management strategy used in distributed e-commerce transactions 
@@ -40,7 +40,7 @@ public class AiService {
                 Map.of("subject", "E-Commerce", "topic", "Saga Pattern", "complexity", "High")
         ));
 
-        // 💻 Subject 2: C++ Memory Management & Pointer Semantics
+
         documents.add(new Document(
                 """
                 In modern C++ (C++11 and later), RAII (Resource Acquisition Is Initialization) is implemented 
@@ -53,7 +53,7 @@ public class AiService {
                 Map.of("subject", "C++", "topic", "Smart Pointers", "standard", "C++20")
         ));
 
-        // 🏗️ Subject 3: System Design - Load Balancing Algorithms
+
         documents.add(new Document(
                 """
                 Consistent Hashing is a specialized hashing technique used in distributed caches and load 
@@ -66,7 +66,7 @@ public class AiService {
                 Map.of("subject", "System Design", "topic", "Consistent Hashing", "utility", "Scalability")
         ));
 
-        // ☕ Subject 4: Java Virtual Machine (JVM) Garbage Collection
+
         documents.add(new Document(
                 """
                 The G1 (Garbage First) Garbage Collector in Java is designed for multi-processor machines with 
@@ -79,7 +79,7 @@ public class AiService {
                 Map.of("subject", "Java", "topic", "G1 Garbage Collector", "performance", "Low-latency")
         ));
 
-        // Batch insert into your test_vector database
+
         vectorStore.add(documents);
         System.out.println(documents.size() + " complex multi-subject documents inserted successfully.");
     }
@@ -90,25 +90,25 @@ public class AiService {
         return chatClient.prompt().user("tell me about this this framework and why it is used "+topic).call().content();
     }
 
-    public String askAi(String prompt) {
-        String systemTemplate = """
-            You are a helpful AI assistant for a developer.
-            
-            Use the following context from our private database to answer the question:
-            ---------------------
-            {context}
-            ---------------------
-            
-            STRICT RULES:
-            1. ONLY use the provided context.
-            2. If the answer is not in the context, say: "I'm sorry, I don't have that information in my knowledge base."
-            3. Do not use your internal knowledge to answer questions outside the context.
-            """;
-
-        List<Document> documents = vectorStore.similaritySearch(SearchRequest.builder().query(prompt).topK(2).build());
-        String context=documents.stream().map(Document::getText).collect(Collectors.joining("\n\n"));
-        PromptTemplate promptTemplate = new PromptTemplate(systemTemplate);
-        String SystemPrompt=promptTemplate.render(Map.of("context", context));
-        return chatClient.prompt().system(SystemPrompt).user(prompt).call().content();
-    }
+//    public String askAi(String prompt) {
+//        String systemTemplate = """
+//            You are a helpful AI assistant for a developer.
+//
+//            Use the following context from our private database to answer the question:
+//            ---------------------
+//            {context}
+//            ---------------------
+//
+//            STRICT RULES:
+//            1. ONLY use the provided context.
+//            2. If the answer is not in the context, say: "I'm sorry, I don't have that information in my knowledge base."
+//            3. Do not use your internal knowledge to answer questions outside the context.
+//            """;
+//
+//        List<Document> documents = vectorStore.similaritySearch(SearchRequest.builder().query(prompt).topK(5).build());
+//        String context=documents.stream().map(Document::getText).collect(Collectors.joining("\n\n"));
+//        PromptTemplate promptTemplate = new PromptTemplate(systemTemplate);
+//        String SystemPrompt=promptTemplate.render(Map.of("context", context));
+//        return chatClient.prompt().system(SystemPrompt).user(prompt).call().content();
+//    }
 }

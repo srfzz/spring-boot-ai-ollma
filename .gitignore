@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+### AI & Data Specific ###
+# Ignore all PDF files (as requested)
+*.pdf
