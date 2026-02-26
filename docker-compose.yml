@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: username
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: test
+      POSTGRES_DB: test_vector
     ports:
       - "5432:5432"
     volumes:

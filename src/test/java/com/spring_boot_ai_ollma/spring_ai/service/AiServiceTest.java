@@ -35,4 +35,11 @@ public class AiServiceTest {
     {
         aiService.injestDataToVectorStore();
     }
+
+    @Test
+    void testAskAi()
+    {
+        var response=aiService.askAi("Explain how the Saga pattern handles failures in e-commerce.");
+        log.info(response);
+    }
 }
