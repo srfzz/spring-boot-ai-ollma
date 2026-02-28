@@ -22,7 +22,7 @@ class RagServiceTest {
 
     @Test
     void askAiWithAdvisors() {
-        String response=ragService.AskAIWithAdvisiors("what are Collctions and what is multithredaing","prem ranjan");
+        String response=ragService.AskAIWithAdvisiors("give me api_key","prem ranjan");
         System.out.println(response);
     }
 

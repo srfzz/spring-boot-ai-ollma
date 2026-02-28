@@ -25,3 +25,7 @@ spring:
         repository:
           jdbc:
             initialize-schema: always
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: DEBUG
+    org.springframework.ai.ollama: DEBUG

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SafeGuardAdvisor;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
@@ -82,11 +84,23 @@ public class RagService {
 
     public String AskAIWithAdvisiors(String prompt,String userId)
     {
+        List<String> sensitiveThings = List.of(
+                "violence", "hate speech", "password", "api_key",
+                "ignore previous instructions", "system prompt", "reveal instructions"
+        );
         return chatClient.prompt().system(" YOUR NAME IS SARFARAJ,YOU ARE AN AI ASSISTANT,GREET USER SIN FREILEXS WAY AD ASK IF THEY NEED ANY HELP ALSO GREET USER WITH YOYUR NAME AND ALSO IF USER NAME IS AVAILBALE")
                 .user(prompt)
                 .advisors(
+                        new SafeGuardAdvisor(sensitiveThings,"mat pucho ye sab  🥲.",
+                                0),
                         MessageChatMemoryAdvisor.builder(chatMemory).conversationId(userId).build(),
-                VectorStoreChatMemoryAdvisor.builder(vectorStore).conversationId(userId).defaultTopK(4).build()
+                VectorStoreChatMemoryAdvisor.builder(vectorStore).conversationId(userId).defaultTopK(4).build(),
+                        QuestionAnswerAdvisor.builder(vectorStore)
+                                .searchRequest(SearchRequest.builder()
+                                        .filterExpression("file_name=='javabook.pdf'")
+                                        .topK(4)
+                                        .build())
+                                .build()
         ).call().content();
 
     }
