@@ -19,6 +19,13 @@ class RagServiceTest {
         log.info("response={}",response);
     }
 
+
+    @Test
+    void askAiWithAdvisors() {
+        var response=ragService.AskAIWithAdvisiors("what is java and why it is used ","prem ranjan");
+        log.info("response={}",response);
+    }
+
     @Test
     void getDoumentDetails() {
         ragService.injestPdfDataToVectorStore();
