@@ -6,7 +6,9 @@ import lombok.RequiredArgsConstructor;
 
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.VectorStoreChatMemoryAdvisor;
+import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -29,6 +31,7 @@ public class RagService {
     private final ChatClient chatClient;
     private final EmbeddingModel embeddingModel;
     private final VectorStore vectorStore;
+    private final ChatMemory chatMemory;
     @Value("classpath:javabook.pdf")
     Resource resource;
 
@@ -79,7 +82,10 @@ public class RagService {
 
     public String AskAIWithAdvisiors(String prompt,String userId)
     {
-        return chatClient.prompt().system(" YOUR NAME IS SARFARAJ,YOU ARE AN AI ASSISTANT,GREET USER SIN FREILEXS WAY AD ASK IF THEY NEED ANY HELP ALSO GREET USER WITH YOYUR NAME AND ALSO IF USER NAME IS AVAILBALE").user(prompt).advisors(
+        return chatClient.prompt().system(" YOUR NAME IS SARFARAJ,YOU ARE AN AI ASSISTANT,GREET USER SIN FREILEXS WAY AD ASK IF THEY NEED ANY HELP ALSO GREET USER WITH YOYUR NAME AND ALSO IF USER NAME IS AVAILBALE")
+                .user(prompt)
+                .advisors(
+                        MessageChatMemoryAdvisor.builder(chatMemory).conversationId(userId).build(),
                 VectorStoreChatMemoryAdvisor.builder(vectorStore).conversationId(userId).defaultTopK(4).build()
         ).call().content();
 

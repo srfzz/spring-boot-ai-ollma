@@ -22,8 +22,8 @@ class RagServiceTest {
 
     @Test
     void askAiWithAdvisors() {
-        var response=ragService.AskAIWithAdvisiors("what is java and why it is used ","prem ranjan");
-        log.info("response={}",response);
+        String response=ragService.AskAIWithAdvisiors("what are Collctions and what is multithredaing","prem ranjan");
+        System.out.println(response);
     }
 
     @Test
